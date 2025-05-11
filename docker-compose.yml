@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  asl-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app:delegated
+    environment:
+      - FLASK_ENV=development
+      - PYTHONUNBUFFERED=1
+    devices:
+      - "/dev/video0:/dev/video0"  # This allows access to the webcam
+    privileged: true  # This is needed for webcam access
+    restart: unless-stopped
+    tty: true  # This helps with debugging 
