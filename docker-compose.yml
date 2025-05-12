@@ -9,11 +9,19 @@ services:
       - "5000:5000"
     volumes:
       - ./:/app:delegated
+      - ./models:/app/models
     environment:
       - FLASK_ENV=development
+      - FLASK_APP=app.py
       - PYTHONUNBUFFERED=1
     devices:
       - "/dev/video0:/dev/video0"  # This allows access to the webcam
     privileged: true  # This is needed for webcam access
     restart: unless-stopped
-    tty: true  # This helps with debugging 
+    tty: true  # This helps with debugging
+    networks:
+      - asl-network
+
+networks:
+  asl-network:
+    driver: bridge 
